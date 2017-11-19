@@ -21,6 +21,7 @@ namespace PKHeX.WinForms
     {
         public Main()
         {
+            MessageBox.Show("This is an unofficial experimental PKHeX build meant to test one very specific thing. Use at your own risk.");
             new Task(() => new SplashScreen().ShowDialog()).Start();
             new Task(RefreshMGDB).Start();
             InitializeComponent();

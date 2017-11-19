@@ -127,6 +127,8 @@ namespace PKHeX.WinForms
 
             foreach (string t in TrainerStampTitle)
                 LB_Stamps.Items.Add(t);
+
+            numHairStyle.Value = SAV.HairStyle;
         }
         private void GetTextBoxes()
         {
@@ -330,6 +332,8 @@ namespace PKHeX.WinForms
         }
         private void Save()
         {
+            SAV.HairStyle = (byte)numHairStyle.Value;
+
             SaveTrainerInfo();
             SavePokeFinder();
             SaveBattleTree();

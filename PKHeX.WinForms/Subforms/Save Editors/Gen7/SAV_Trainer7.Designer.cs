@@ -201,14 +201,17 @@
             this.B_Fashion = new System.Windows.Forms.Button();
             this.Tab_Ultra = new System.Windows.Forms.TabPage();
             this.GB_Surf = new System.Windows.Forms.GroupBox();
-            this.NUD_Surf0 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Surf1 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Surf2 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Surf3 = new System.Windows.Forms.NumericUpDown();
-            this.L_Surf0 = new System.Windows.Forms.Label();
-            this.L_Surf1 = new System.Windows.Forms.Label();
-            this.L_Surf2 = new System.Windows.Forms.Label();
             this.L_Surf3 = new System.Windows.Forms.Label();
+            this.L_Surf2 = new System.Windows.Forms.Label();
+            this.L_Surf1 = new System.Windows.Forms.Label();
+            this.L_Surf0 = new System.Windows.Forms.Label();
+            this.NUD_Surf3 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Surf2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Surf1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Surf0 = new System.Windows.Forms.NumericUpDown();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numHairStyle = new System.Windows.Forms.NumericUpDown();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -247,10 +250,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).BeginInit();
             this.Tab_Ultra.SuspendLayout();
             this.GB_Surf.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numHairStyle)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -853,6 +858,7 @@
             this.TC_Editor.Controls.Add(this.Tab_BattleTree);
             this.TC_Editor.Controls.Add(this.Tab_Misc);
             this.TC_Editor.Controls.Add(this.Tab_Ultra);
+            this.TC_Editor.Controls.Add(this.tabPage1);
             this.TC_Editor.Location = new System.Drawing.Point(12, 12);
             this.TC_Editor.Name = "TC_Editor";
             this.TC_Editor.SelectedIndex = 0;
@@ -2117,6 +2123,89 @@
             this.GB_Surf.TabStop = false;
             this.GB_Surf.Text = "Surf Scores";
             // 
+            // L_Surf3
+            // 
+            this.L_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf3.Location = new System.Drawing.Point(6, 76);
+            this.L_Surf3.Name = "L_Surf3";
+            this.L_Surf3.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf3.TabIndex = 7;
+            this.L_Surf3.Text = "Poni";
+            this.L_Surf3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Surf2
+            // 
+            this.L_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf2.Location = new System.Drawing.Point(6, 55);
+            this.L_Surf2.Name = "L_Surf2";
+            this.L_Surf2.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf2.TabIndex = 6;
+            this.L_Surf2.Text = "Ula\'ula";
+            this.L_Surf2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Surf1
+            // 
+            this.L_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf1.Location = new System.Drawing.Point(6, 34);
+            this.L_Surf1.Name = "L_Surf1";
+            this.L_Surf1.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf1.TabIndex = 5;
+            this.L_Surf1.Text = "Akala";
+            this.L_Surf1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Surf0
+            // 
+            this.L_Surf0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf0.Location = new System.Drawing.Point(6, 13);
+            this.L_Surf0.Name = "L_Surf0";
+            this.L_Surf0.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf0.TabIndex = 4;
+            this.L_Surf0.Text = "Melemele";
+            this.L_Surf0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Surf3
+            // 
+            this.NUD_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf3.Location = new System.Drawing.Point(88, 78);
+            this.NUD_Surf3.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf3.Name = "NUD_Surf3";
+            this.NUD_Surf3.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf3.TabIndex = 3;
+            // 
+            // NUD_Surf2
+            // 
+            this.NUD_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf2.Location = new System.Drawing.Point(88, 57);
+            this.NUD_Surf2.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf2.Name = "NUD_Surf2";
+            this.NUD_Surf2.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf2.TabIndex = 2;
+            // 
+            // NUD_Surf1
+            // 
+            this.NUD_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf1.Location = new System.Drawing.Point(88, 36);
+            this.NUD_Surf1.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf1.Name = "NUD_Surf1";
+            this.NUD_Surf1.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf1.TabIndex = 1;
+            // 
             // NUD_Surf0
             // 
             this.NUD_Surf0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -2135,88 +2224,38 @@
             0,
             0});
             // 
-            // NUD_Surf1
+            // tabPage1
             // 
-            this.NUD_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_Surf1.Location = new System.Drawing.Point(88, 36);
-            this.NUD_Surf1.Maximum = new decimal(new int[] {
-            999999999,
+            this.tabPage1.Controls.Add(this.numHairStyle);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(386, 290);
+            this.tabPage1.TabIndex = 7;
+            this.tabPage1.Text = "Dev";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(58, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Hair Style: ";
+            // 
+            // numHairStyle
+            // 
+            this.numHairStyle.Location = new System.Drawing.Point(70, 6);
+            this.numHairStyle.Maximum = new decimal(new int[] {
+            255,
             0,
             0,
             0});
-            this.NUD_Surf1.Name = "NUD_Surf1";
-            this.NUD_Surf1.Size = new System.Drawing.Size(79, 20);
-            this.NUD_Surf1.TabIndex = 1;
-            // 
-            // NUD_Surf2
-            // 
-            this.NUD_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_Surf2.Location = new System.Drawing.Point(88, 57);
-            this.NUD_Surf2.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.NUD_Surf2.Name = "NUD_Surf2";
-            this.NUD_Surf2.Size = new System.Drawing.Size(79, 20);
-            this.NUD_Surf2.TabIndex = 2;
-            // 
-            // NUD_Surf3
-            // 
-            this.NUD_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_Surf3.Location = new System.Drawing.Point(88, 78);
-            this.NUD_Surf3.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.NUD_Surf3.Name = "NUD_Surf3";
-            this.NUD_Surf3.Size = new System.Drawing.Size(79, 20);
-            this.NUD_Surf3.TabIndex = 3;
-            // 
-            // L_Surf0
-            // 
-            this.L_Surf0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Surf0.Location = new System.Drawing.Point(6, 13);
-            this.L_Surf0.Name = "L_Surf0";
-            this.L_Surf0.Size = new System.Drawing.Size(76, 20);
-            this.L_Surf0.TabIndex = 4;
-            this.L_Surf0.Text = "Melemele";
-            this.L_Surf0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Surf1
-            // 
-            this.L_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Surf1.Location = new System.Drawing.Point(6, 34);
-            this.L_Surf1.Name = "L_Surf1";
-            this.L_Surf1.Size = new System.Drawing.Size(76, 20);
-            this.L_Surf1.TabIndex = 5;
-            this.L_Surf1.Text = "Akala";
-            this.L_Surf1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Surf2
-            // 
-            this.L_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Surf2.Location = new System.Drawing.Point(6, 55);
-            this.L_Surf2.Name = "L_Surf2";
-            this.L_Surf2.Size = new System.Drawing.Size(76, 20);
-            this.L_Surf2.TabIndex = 6;
-            this.L_Surf2.Text = "Ula\'ula";
-            this.L_Surf2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Surf3
-            // 
-            this.L_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Surf3.Location = new System.Drawing.Point(6, 76);
-            this.L_Surf3.Name = "L_Surf3";
-            this.L_Surf3.Size = new System.Drawing.Size(76, 20);
-            this.L_Surf3.TabIndex = 7;
-            this.L_Surf3.Text = "Poni";
-            this.L_Surf3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.numHairStyle.Name = "numHairStyle";
+            this.numHairStyle.Size = new System.Drawing.Size(120, 20);
+            this.numHairStyle.TabIndex = 1;
             // 
             // SAV_Trainer7
             // 
@@ -2277,10 +2316,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).EndInit();
             this.Tab_Ultra.ResumeLayout(false);
             this.GB_Surf.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numHairStyle)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2467,5 +2509,8 @@
         private System.Windows.Forms.NumericUpDown NUD_Surf2;
         private System.Windows.Forms.NumericUpDown NUD_Surf1;
         private System.Windows.Forms.NumericUpDown NUD_Surf0;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.NumericUpDown numHairStyle;
+        private System.Windows.Forms.Label label1;
     }
 }
