@@ -478,10 +478,10 @@ namespace PKHeX.Core
             get => (Data[TrainerCard + 0x54] >> 2) & 7;
             set => Data[TrainerCard + 0x54] = (byte)((Data[TrainerCard + 0x54] & ~(7 << 2)) | (value << 2));
         }
-        public byte HairStyle
+        public ushort HairStyle
         {
-            get => (byte)(BitConverter.ToInt16(Data, TrainerCard + 0x56) / 128);
-            set => BitConverter.GetBytes((ushort)(value * 128)).CopyTo(Data, TrainerCard + 0x56);
+            get => (byte)(BitConverter.ToInt16(Data, TrainerCard + 0x56));
+            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0x56);
         }
         public override int MultiplayerSpriteID
         {

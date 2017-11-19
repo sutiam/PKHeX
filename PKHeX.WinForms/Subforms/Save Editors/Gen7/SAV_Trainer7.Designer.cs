@@ -2249,7 +2249,7 @@
             // 
             this.numHairStyle.Location = new System.Drawing.Point(70, 6);
             this.numHairStyle.Maximum = new decimal(new int[] {
-            255,
+            65535,
             0,
             0,
             0});
