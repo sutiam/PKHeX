@@ -1,10 +1,7 @@
 ﻿namespace PKHeX.Core
 {
-    /// <summary>
-    /// Interface that exposes a Generation value for the object.
-    /// </summary>
-    internal interface IGeneration
+    internal interface IGenerationSet
     {
-        int Generation { get; }
+        int Generation { set; }
     }
 }

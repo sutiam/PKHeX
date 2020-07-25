@@ -17,45 +17,35 @@ namespace PKHeX.Core
 
         public static int GetSlot(SlotType type, uint rand, FrameType t)
         {
-            switch (t)
+            return t switch
             {
-                case FrameType.MethodH:
-                    return HSlot(type, rand);
-                case FrameType.MethodJ:
-                    return JSlot(type, rand);
-                case FrameType.MethodK:
-                    return KSlot(type, rand);
-            }
-            return -1;
+                FrameType.MethodH => HSlot(type, rand),
+                FrameType.MethodJ => JSlot(type, rand),
+                FrameType.MethodK => KSlot(type, rand),
+                _ => -1
+            };
         }
 
         private static int HSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
-            switch (type)
+            return type switch
             {
-                case SlotType.Old_Rod:
-                case SlotType.Old_Rod_Safari:
-                    return CalcSlot(ESV, H_OldRod);
-                case SlotType.Good_Rod:
-                case SlotType.Good_Rod_Safari:
-                    return CalcSlot(ESV, H_GoodRod);
-                case SlotType.Super_Rod:
-                case SlotType.Super_Rod_Safari:
-                    return CalcSlot(ESV, H_SuperRod);
-
-                case SlotType.Rock_Smash:
-                case SlotType.Rock_Smash_Safari:
-                case SlotType.Surf:
-                case SlotType.Surf_Safari:
-                    return CalcSlot(ESV, H_Surf);
-
-                case SlotType.Swarm:
-                    return ESV < 50 ? 0 : -1;
-                default:
-                    return CalcSlot(ESV, H_Regular);
-            }
+                SlotType.Old_Rod =>        CalcSlot(ESV, H_OldRod),
+                SlotType.Old_Rod_Safari => CalcSlot(ESV, H_OldRod),
+                SlotType.Good_Rod =>        CalcSlot(ESV, H_GoodRod),
+                SlotType.Good_Rod_Safari => CalcSlot(ESV, H_GoodRod),
+                SlotType.Super_Rod =>        CalcSlot(ESV, H_SuperRod),
+                SlotType.Super_Rod_Safari => CalcSlot(ESV, H_SuperRod),
+                SlotType.Rock_Smash =>        CalcSlot(ESV, H_Surf),
+                SlotType.Rock_Smash_Safari => CalcSlot(ESV, H_Surf),
+                SlotType.Surf =>        CalcSlot(ESV, H_Surf),
+                SlotType.Surf_Safari => CalcSlot(ESV, H_Surf),
+                SlotType.Swarm => (ESV < 50 ? 0 : -1),
+                _ => CalcSlot(ESV, H_Regular)
+            };
         }
+
         private static int KSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
@@ -84,6 +74,7 @@ namespace PKHeX.Core
                     return CalcSlot(ESV, H_Regular);
             }
         }
+
         private static int JSlot(SlotType type, uint rand)
         {
             uint ESV = rand / 656;
@@ -103,16 +94,16 @@ namespace PKHeX.Core
             }
         }
 
-        private struct Range
+        private readonly struct Range
         {
+            internal readonly uint Min;
+            internal readonly uint Max;
+
             internal Range(uint min, uint max)
             {
                 Min = min;
                 Max = max;
             }
-
-            internal uint Min { get; }
-            internal uint Max { get; }
         }
 
         private static Range[] GetRanges(params uint[] rates)
@@ -128,8 +119,10 @@ namespace PKHeX.Core
         private static int CalcSlot(uint esv, Range[] ranges)
         {
             for (int i = 0; i < ranges.Length; ++i)
+            {
                 if (esv >= ranges[i].Min && esv <= ranges[i].Max)
                     return i;
+            }
 
             return -1;
         }
@@ -145,37 +138,42 @@ namespace PKHeX.Core
 
             return slot.LevelMin + adjust;
         }
+
+#pragma warning disable IDE0060, RCS1163 // Unused parameter.
         public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
+#pragma warning restore IDE0060, RCS1163 // Unused parameter.
         {
             if (slot.Type.IsSweetScentType())
                 return true;
             return true; // todo
-            return GetCanEncounter(slot, frameType, rand, lead);
+            //return GetCanEncounter(slot, frameType, rand, lead);
         }
-        private static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
+
+        // ReSharper disable once UnusedMember.Global
+        public static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
         {
             int proc = frameType == FrameType.MethodJ ? rand / 656 : rand % 100;
-            if (slot.Type.HasFlag(SlotType.Rock_Smash))
+            if ((slot.Type & SlotType.Rock_Smash) != 0)
                 return proc < 60;
             if (frameType == FrameType.MethodH)
                 return true; // fishing encounters are disjointed by the hooked message.
 
             // fishing
-            if (slot.Type.HasFlag(SlotType.Old_Rod))
+            if ((slot.Type & SlotType.Old_Rod) != 0)
             {
                 if (proc < 25)
                     return true;
                 if (proc < 50)
                     return lead == LeadRequired.None;
             }
-            else if (slot.Type.HasFlag(SlotType.Good_Rod))
+            else if ((slot.Type & SlotType.Good_Rod) != 0)
             {
                 if (proc < 50)
                     return true;
                 if (proc < 75 && lead == LeadRequired.None)
                     return lead == LeadRequired.None;
             }
-            else if (slot.Type.HasFlag(SlotType.Super_Rod))
+            else if ((slot.Type & SlotType.Super_Rod) != 0)
             {
                 if (proc < 75)
                     return true;

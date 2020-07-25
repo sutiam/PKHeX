@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
 
 namespace PKHeX.WinForms
 {
@@ -9,21 +10,38 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
+
         public SAV_BoxLayout(SaveFile sav, int box)
         {
-            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (Origin = sav).Clone();
             editing = true;
-            
-            // Repopulate Wallpaper names
-            if (!LoadWallpaperNames())
+
+            if (!SAV.HasBoxWallpapers)
+                CB_BG.Visible = PAN_BG.Visible = false;
+            else if (!LoadWallpaperNames()) // Repopulate Wallpaper names
                 WinFormsUtil.Error("Box layout is not supported for this game.", "Please close the window.");
+
             LoadBoxNames();
             LoadFlags();
             LoadUnlockedCount();
 
             LB_BoxSelect.SelectedIndex = box;
+            switch (SAV.Generation)
+            {
+                case 6:
+                case 7:
+                    TB_BoxName.MaxLength = 14;
+                    break;
+                case 8:
+                    TB_BoxName.MaxLength = 16;
+                    break;
+                default:
+                    TB_BoxName.MaxLength = 8;
+                    break;
+            }
+            editing = false;
         }
 
         private bool LoadWallpaperNames()
@@ -31,9 +49,7 @@ namespace PKHeX.WinForms
             CB_BG.Items.Clear();
             switch (SAV.Generation)
             {
-                case 3:
-                    if (SAV.GameCube)
-                        goto default;
+                case 3 when SAV is SAV3:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Take(16).ToArray());
                     return true;
                 case 4:
@@ -44,16 +60,21 @@ namespace PKHeX.WinForms
                 case 7:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Take(16).ToArray());
                     return true;
+                case 8:
+                    CB_BG.Items.AddRange(Enumerable.Range(1, 19).Select(z => $"Wallpaper {z}").ToArray());
+                    return true;
                 default:
                     return false;
             }
         }
+
         private void LoadBoxNames()
         {
             LB_BoxSelect.Items.Clear();
             for (int i = 0; i < SAV.BoxCount; i++)
                 LB_BoxSelect.Items.Add(SAV.GetBoxName(i));
         }
+
         private void LoadUnlockedCount()
         {
             if (SAV.BoxesUnlocked <= 0)
@@ -63,16 +84,15 @@ namespace PKHeX.WinForms
             }
             CB_Unlocked.Items.Clear();
             int max = SAV.BoxCount;
-            if (SAV.Generation == 6)
-                max -= 1; // cover legendary captured unlocks final box, not governed by BoxesUnlocked
             for (int i = 0; i <= max; i++)
                 CB_Unlocked.Items.Add(i);
             CB_Unlocked.SelectedIndex = Math.Min(max, SAV.BoxesUnlocked);
         }
+
         private void LoadFlags()
         {
             byte[] flags = SAV.BoxFlags;
-            if (flags == null)
+            if (flags.Length == 0)
             {
                 FLP_Flags.Visible = false;
                 return;
@@ -93,20 +113,22 @@ namespace PKHeX.WinForms
             }
         }
 
-        private NumericUpDown[] flagArr = new NumericUpDown[0];
+        private NumericUpDown[] flagArr = Array.Empty<NumericUpDown>();
         private bool editing;
         private bool renamingBox;
+
         private void ChangeBox(object sender, EventArgs e)
         {
             if (renamingBox)
                 return;
             editing = true;
-            
+
             CB_BG.SelectedIndex = Math.Min(CB_BG.Items.Count - 1, SAV.GetBoxWallpaper(LB_BoxSelect.SelectedIndex));
             TB_BoxName.Text = SAV.GetBoxName(LB_BoxSelect.SelectedIndex);
 
-            editing = false; 
+            editing = false;
         }
+
         private void ChangeBoxDetails(object sender, EventArgs e)
         {
             if (editing)
@@ -117,10 +139,12 @@ namespace PKHeX.WinForms
             LB_BoxSelect.Items[LB_BoxSelect.SelectedIndex] = TB_BoxName.Text;
             renamingBox = false;
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (flagArr.Length > 0)
@@ -128,7 +152,7 @@ namespace PKHeX.WinForms
             if (CB_Unlocked.Visible)
                 SAV.BoxesUnlocked = CB_Unlocked.SelectedIndex;
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
@@ -137,9 +161,9 @@ namespace PKHeX.WinForms
             if (!editing)
                 SAV.SetBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
 
-            PAN_BG.BackgroundImage = SAV.WallpaperImage(CB_BG.SelectedIndex);
+            PAN_BG.BackgroundImage = SAV.WallpaperImage(LB_BoxSelect.SelectedIndex);
         }
-        
+
         private bool MoveItem(int direction)
         {
             // Checking selected item
@@ -150,7 +174,7 @@ namespace PKHeX.WinForms
             int newIndex = LB_BoxSelect.SelectedIndex + direction;
 
             // Checking bounds of the range
-            if (newIndex < 0 || newIndex >= LB_BoxSelect.Items.Count)
+            if ((uint)newIndex >= LB_BoxSelect.Items.Count)
                 return false; // Index out of range - nothing to do
 
             object selected = LB_BoxSelect.SelectedItem;
@@ -181,7 +205,10 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("Locked/Team slots prevent movement of box(es).");
             }
             else
-                ChangeBox(null, null);
+            {
+                ChangeBox(null, EventArgs.Empty);
+            }
+
             editing = renamingBox = false;
         }
     }

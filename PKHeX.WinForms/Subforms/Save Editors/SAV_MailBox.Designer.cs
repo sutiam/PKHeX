@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_MailBox));
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.LB_PartyHeld = new System.Windows.Forms.ListBox();
@@ -660,6 +659,7 @@
             0,
             0,
             0});
+            this.NUD_MailID6.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM6
             // 
@@ -700,6 +700,7 @@
             0,
             0,
             0});
+            this.NUD_MailID5.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM5
             // 
@@ -740,6 +741,7 @@
             0,
             0,
             0});
+            this.NUD_MailID4.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM4
             // 
@@ -780,6 +782,7 @@
             0,
             0,
             0});
+            this.NUD_MailID3.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM3
             // 
@@ -820,6 +823,7 @@
             0,
             0,
             0});
+            this.NUD_MailID2.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM2
             // 
@@ -860,6 +864,7 @@
             0,
             0,
             0});
+            this.NUD_MailID1.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM1
             // 
@@ -994,7 +999,7 @@
             this.Controls.Add(this.LB_PartyHeld);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.Name = "SAV_MailBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MailBox Editor";

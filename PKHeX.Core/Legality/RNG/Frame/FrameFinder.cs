@@ -13,21 +13,18 @@ namespace PKHeX.Core
         /// <returns><see cref="IEnumerable{Frame}"/> to yield possible encounter details for further filtering</returns>
         public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
         {
-            if (pidiv.RNG == null)
-                return Enumerable.Empty<Frame>();
-            FrameGenerator info = new FrameGenerator(pidiv, pk);
-            if (info.FrameType == FrameType.None)
+            if (pk.Version == (int)GameVersion.CXD)
                 return Enumerable.Empty<Frame>();
 
-            info.Nature = pk.EncryptionConstant % 25;
+            var info = new FrameGenerator(pk) {Nature = pk.EncryptionConstant % 25};
 
             // gather possible nature determination seeds until a same-nature PID breaks the unrolling
-            var seeds = pk.Species == 201 && pk.FRLG // reversed await case
+            var seeds = pk.Species == (int)Species.Unown && pk.FRLG // reversed await case
                 ? SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.AltForm)
                 : SeedInfo.GetSeedsUntilNature(pidiv, info);
 
-            var frames = pidiv.Type == PIDType.CuteCharm 
-                ? FilterCuteCharm(seeds, pidiv, info) 
+            var frames = pidiv.Type == PIDType.CuteCharm
+                ? FilterCuteCharm(seeds, pidiv, info)
                 : FilterNatureSync(seeds, pidiv, info);
 
             var refined = RefineFrames(frames, info);
@@ -75,6 +72,7 @@ namespace PKHeX.Core
                     yield return frame;
             }
         }
+
         private static IEnumerable<Frame> GenerateLeadSpecificFrames3(Frame f, FrameGenerator info)
         {
             // Check leads -- none in list if leads are not allowed
@@ -82,7 +80,7 @@ namespace PKHeX.Core
             // 3 different rand places
             LeadRequired lead;
             var prev0 = f.Seed; // 0
-            var prev1 = info.RNG.Prev(f.Seed); // -1 
+            var prev1 = info.RNG.Prev(f.Seed); // -1
             var prev2 = info.RNG.Prev(prev1); // -2
             var prev3 = info.RNG.Prev(prev2); // -3
 
@@ -177,11 +175,12 @@ namespace PKHeX.Core
                     yield return frame;
             }
         }
+
         private static IEnumerable<Frame> GenerateLeadSpecificFrames4(Frame f, FrameGenerator info)
         {
             LeadRequired lead;
             var prev0 = f.Seed; // 0
-            var prev1 = info.RNG.Prev(f.Seed); // -1 
+            var prev1 = info.RNG.Prev(f.Seed); // -1
             var prev2 = info.RNG.Prev(prev1); // -2
             var prev3 = info.RNG.Prev(prev2); // -3
 
@@ -278,28 +277,31 @@ namespace PKHeX.Core
                 if (!sync && !reg) // doesn't generate nature frame
                     continue;
 
-                uint prev = pidiv.RNG.Prev(s);
+                uint prev = RNG.LCRNG.Prev(s);
                 if (info.AllowLeads && reg) // check for failed sync
                 {
                     var failsync = (info.DPPt ? prev >> 31 : (prev >> 16) & 1) != 1;
                     if (failsync)
-                        yield return info.GetFrame(pidiv.RNG.Prev(prev), LeadRequired.SynchronizeFail);
+                        yield return info.GetFrame(RNG.LCRNG.Prev(prev), LeadRequired.SynchronizeFail);
                 }
                 if (sync)
                     yield return info.GetFrame(prev, LeadRequired.Synchronize);
                 if (reg)
                 {
                     if (seed.Charm3)
+                    {
                         yield return info.GetFrame(prev, LeadRequired.CuteCharm);
+                    }
                     else
                     {
                         if (info.Safari3)
-                            prev = pidiv.RNG.Prev(prev); // wasted RNG call
+                            prev = RNG.LCRNG.Prev(prev); // wasted RNG call
                         yield return info.GetFrame(prev, LeadRequired.None);
                     }
                 }
             }
         }
+
         private static bool IsValidPokeBlockNature(uint seed, uint nature, out uint natureOrigin)
         {
             if (nature % 6 == 0) // neutral
@@ -311,8 +313,10 @@ namespace PKHeX.Core
             // unroll the RNG to a stack of seeds
             var stack = new Stack<uint>();
             for (uint i = 0; i < 25; i++)
-            for (uint j = 1 + i; j < 25; j++)
-                stack.Push(seed = RNG.LCRNG.Prev(seed));
+            {
+                for (uint j = 1 + i; j < 25; j++)
+                    stack.Push(seed = RNG.LCRNG.Prev(seed));
+            }
 
             natureOrigin = RNG.LCRNG.Prev(stack.Peek());
             if (natureOrigin >> 16 % 100 >= 80) // failed proc
@@ -325,17 +329,19 @@ namespace PKHeX.Core
 
             // shuffle nature list
             for (uint i = 0; i < 25; i++)
-            for (uint j = 1 + i; j < 25; j++)
             {
-                var s = stack.Pop();
-                if ((s >> 16 & 1) == 0)
-                    continue; // only swap if 1
+                for (uint j = 1 + i; j < 25; j++)
+                {
+                    var s = stack.Pop();
+                    if ((s >> 16 & 1) == 0)
+                        continue; // only swap if 1
 
-                var temp = natures[i];
-                natures[i] = natures[j];
-                natures[j] = temp;
+                    var temp = natures[i];
+                    natures[i] = natures[j];
+                    natures[j] = temp;
+                }
             }
-            
+
             var likes = Pokeblock.GetLikedBlockFlavor(nature);
             // best case scenario is a perfect flavored pokeblock for the nature.
             // has liked flavor, and all other non-disliked flavors are present.
@@ -373,7 +379,7 @@ namespace PKHeX.Core
                 if (nature != info.Nature)
                     continue;
 
-                var prev = pidiv.RNG.Prev(s);
+                var prev = RNG.LCRNG.Prev(s);
                 var proc = prev >> 16;
                 bool charmProc = (info.DPPt ? proc / 0x5556 : proc % 3) != 0; // 2/3 odds
                 if (!charmProc)
